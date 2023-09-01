@@ -40,7 +40,8 @@ public enum UserInterface
     KeyboardMouse,
     ViveRoomspace,
     ViveVirtualizer,
-    ViveKatwalk
+    ViveKatwalk,
+    OpenXRController
 }
 
 public class Experiment : MonoBehaviour
@@ -383,6 +384,9 @@ public class Experiment : MonoBehaviour
                 case "ViveKatwalk":
                     userInterface = UserInterface.ViveKatwalk;
                     break;
+                case "OpenXRController":
+                    userInterface = UserInterface.OpenXRController;
+                    break;
                 default:
                     userInterface = UserInterface.KeyboardMouse;
                     break;
@@ -432,6 +436,22 @@ public class Experiment : MonoBehaviour
                     Debug.LogException(ex);
                     Debug.LogWarning("The proprietary ViveKatwalkController asset cannot be found.\n" +
                         "Are you missing the prefab in your Landmarks project or a reference to the prefab in your scene?");
+
+                    goto default;
+                }
+
+            case UserInterface.OpenXRController:
+
+                try
+                {
+                    lmPlayer = GameObject.Find("OpenXRController").GetComponent<LM_PlayerController>();
+
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    Debug.LogWarning("The OpenXRController asset was not found");
 
                     goto default;
                 }
